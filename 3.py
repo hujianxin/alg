@@ -1,13 +1,14 @@
 N, V = map(int, input().split())
 
-# 
-dp = [[0 for _ in range(V + 1)] for _ in range(N + 1)]
 
-for i in range(1, N + 1):
-    [v, w] = list(map(int, input().split()))
-    for j in range(1, V + 1):
-        dp[i][j] = dp[i - 1][j]
-        if j >= v:
-            dp[i][j] = max(dp[i][j], dp[i][j - v] + w)
+# dp[i] 表示总体积为i的情况下，最大化价值
+# 与01背包的区别是，在压缩为1维的情况下，完全背包是从小到大遍历体积
+dp = [0 for _ in range(V + 1)]
 
-print(dp[-1][-1])
+for i in range(N):
+    v, w = list(map(int, input().split()))
+    for j in range(v, V + 1):
+        dp[j] = max(dp[j], dp[j - v] + w)
+
+
+print(dp[V])
